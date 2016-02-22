@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+        <head>
+                <!--<link type="text/css" rel="stylesheet" href="stylesheet.css">-->
+                <title>Timesheet</title>
+        </head>
+<body>
+
+<h3><center>Timesheets</center></h3>
+ <button id="addCF">Add</button>
+<%= form_for :mtimesheet, url: timesheets_path do |timesheet| %>
+       
+        <table class="form-table" id="customFields">
+         <th><label for="Project">Project</label></th>
+         <th align="center"><label for="Description">Description</label></th>
+         <th align="center"><label for="Hours">Hours</label></th>
+         <th align="center"><label for="Status">Status</label></th>
+         
+
+         <tr valign="top">
+            <td align="center"><%= timesheet.text_field :project %></td>
+            <td align="center"><%= timesheet.text_field :description %></td>
+            <td ><%= timesheet.select :hours, [['1', 1], ['2', 2], ['3',3]] %></td>
+            <td align="center"><%= timesheet.select :status, [['Completed',11],['Pending',12]] %></td>
+            
+
+
+            <td colspan="10"><a href="javascript:void(0);" class="remCF">Remove</a></td>&nbsp;
+         </tr>
+        </table>
+        <p>
+         <%= timesheet.submit %>
+        </p>    
+<% end %>
+
+
+
+<script src="app/assets/javascripts/jquery.js"></script>
+
+<script>
+$(document).ready(function() {
+    $("#addCF").click(function() {
+        $("#customFields").append('<tr><td><%= text_field(:mtimesheet, :project) %></td><td><%= text_field(:mtimesheet, :description) %></td><td><%= escape_javascript(select(:mtimesheet, :hours,[['1',1],['2',2],['3',3]])) %></td><td><%= escape_javascript(select(:mtimesheet, :status,[['Completed',11],['Pending',12]])) %></td></tr>');
+    });
+});
+</script>
+</body>
+</html>
