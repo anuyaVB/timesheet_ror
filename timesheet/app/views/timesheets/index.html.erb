@@ -6,7 +6,7 @@
         </head>
 <body>
 
-<h3><center>Timesheets</center></h3>
+ <h3><center>Timesheets</center></h3>
  <button id="addCF">Add</button>
 <%= form_for :mtimesheet, url: timesheets_path do |timesheet| %>
        
@@ -33,16 +33,42 @@
         </p>    
 <% end %>
 
+    <% @ctimesheet.each do |times| %>
+         <tr valign="top">
+            <td align="center"><%= times.project %></td>
+            <td align="center"><%= times.description %></td>
+            <td align="center"><%= times.hours %></td>
+            <td align="center"><%= times.status %></td>
+            <td><%= link_to 'Destroy',timesheet_path(times),
+              method: :delete,
+              data: { confirm: 'Are you sure?' } %></td>
+         </tr>
+         <% end %>
+
 
 
 <script src="app/assets/javascripts/jquery.js"></script>
 
 <script>
 $(document).ready(function() {
+    $(".remCF").on('click',function(){
+        removeRecord(this);
+    });
     $("#addCF").click(function() {
-        $("#customFields").append('<tr><td><%= text_field(:mtimesheet, :project) %></td><td><%= text_field(:mtimesheet, :description) %></td><td><%= escape_javascript(select(:mtimesheet, :hours,[['1',1],['2',2],['3',3]])) %></td><td><%= escape_javascript(select(:mtimesheet, :status,[['Completed',11],['Pending',12]])) %></td></tr>');
+        $("#customFields").append('<tr><td><%= text_field(:mtimesheet, :project) %></td><td><%= text_field(:mtimesheet, :description) %></td><td><%= escape_javascript(select(:mtimesheet, :hours,[['1',1],['2',2],['3',3]])) %></td><td><%= escape_javascript(select(:mtimesheet, :status,[['Completed',11],['Pending',12]])) %></td>escape_javascript<td colspan="10"><a href="javascript:void(0);" class="remCF">Remove</a></td>&nbsp;</tr>');
+        $(".remCF").unbind('click');
+        $(".remCF").on('click',function(){
+        removeRecord(this);
+        });
     });
 });
+    function removeRecord(ele){
+    var a = confirm("Do you wish to continue?");
+    if(a){
+        $(ele).parent().parent().remove();
+    }
+}
+
 </script>
 </body>
 </html>
